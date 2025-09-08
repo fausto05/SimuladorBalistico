@@ -36,4 +36,4 @@ El simulador cumple con los siguientes puntos:
 - Registro de resultados (se mide tiempo de vuelo, punto de impacto, velocidad, impulso de colisión y piezas derribadas).  
 - Feedback al jugador (reporte de tiro con precisión y potencia).
 
-LINK VIDEO DE YOUTUBE: 
+LINK VIDEO DE YOUTUBE: https://youtu.be/sRW03kG3BeI
