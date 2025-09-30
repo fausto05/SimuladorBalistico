@@ -20,19 +20,30 @@ public class ProjectileDataLogger : MonoBehaviour
 
         float flightTime = Time.time - startTime;
         Vector3 impactPoint = collision.contacts[0].point;
-        Vector3 relativeVelocity = collision.relativeVelocity;
-        float impulse = collision.impulse.magnitude;
+
+        // Distancia horizontal del disparo
+        float distance = Vector3.Distance(startPos, impactPoint);
 
         int pieces = CountFallenPieces();
 
-        Debug.Log
-        (
-            $"Tiempo de vuelo: {flightTime:F2}s\n" +
-            $"Punto de impacto: {impactPoint}\n" +
-            $"Velocidad relativa: {relativeVelocity.magnitude:F2}\n" +
-            $"Impulso: {impulse:F2}\n" +
-            $"Piezas derribadas: {pieces}"
+        // Acierto si pegó a un objeto con tag "Target"
+        bool hit = collision.gameObject.CompareTag("Target");
+
+        // Obtenemos referencia al ShotManager
+        ShotManager manager = FindFirstObjectByType<ShotManager>();
+
+        ShotResult result = new ShotResult(
+            GameObject.FindFirstObjectByType<ProjectileLauncher>().angleSlider.value,
+            GameObject.FindFirstObjectByType<ProjectileLauncher>().forceSlider.value,
+            GameObject.FindFirstObjectByType<ProjectileLauncher>().massDropdown.value + 1,
+            hit,
+            distance,
+            pieces
         );
+
+        manager.SaveShot(result);
+
+        Debug.Log($"Guardado en Firebase: {result.angle}°, {result.force} fuerza, {result.mass} masa, Hit: {result.hitTarget}, Dist: {result.distance}, Piezas: {result.pieces}");
     }
 
     int CountFallenPieces()
