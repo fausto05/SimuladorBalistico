@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class ShotResult
 {
     public float angle;
@@ -18,4 +20,7 @@ public class ShotResult
         this.distance = distance;
         this.pieces = pieces;
     }
+
+    // Constructor vacío requerido por RestClient
+    public ShotResult() { }
 }
