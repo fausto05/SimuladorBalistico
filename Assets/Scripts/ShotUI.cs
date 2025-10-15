@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public class ShotUI : MonoBehaviour
 {
@@ -9,14 +10,13 @@ public class ShotUI : MonoBehaviour
     public GameObject resultPrefab;
     private ShotManager manager;
 
-    private bool isLoading = false; // evita que se carguen dos veces seguidas
+    private bool isLoading = false; 
 
     void Start()
     {
         manager = FindFirstObjectByType<ShotManager>();
         if (manager == null)
         {
-            Debug.LogError("ShotManager no encontrado en la escena.");
             return;
         }
 
@@ -27,20 +27,16 @@ public class ShotUI : MonoBehaviour
     {
         if (isLoading)
         {
-            Debug.Log("Ya se está cargando la lista, espera un momento...");
             return;
         }
 
         isLoading = true;
-        Debug.Log("Cargando resultados en UI...");
-
-        // Limpia el contenido anterior
+        
         foreach (Transform child in contentPanel)
             Destroy(child.gameObject);
 
         if (manager == null)
         {
-            Debug.LogError("ShotManager no está inicializado en ShotUI.");
             isLoading = false;
             return;
         }
@@ -51,13 +47,9 @@ public class ShotUI : MonoBehaviour
 
             if (results == null || results.Count == 0)
             {
-                Debug.Log("No hay resultados en Firebase todavía para mostrar.");
                 return;
             }
 
-            Debug.Log($"Firebase devolvió {results.Count} resultados para mostrar en UI.");
-
-            // Ordenar los resultados por clave (Ticks) de más reciente a más antiguo
             foreach (var kv in results.OrderByDescending(k => k.Key))
             {
                 ShotResult r = kv.Value;
@@ -71,13 +63,13 @@ public class ShotUI : MonoBehaviour
                 }
             }
         });
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentPanel.GetComponent<RectTransform>());
     }
 
     public void ClearResultsUI()
     {
         foreach (Transform child in contentPanel)
             Destroy(child.gameObject);
-        Debug.Log("Resultados anteriores eliminados del ScrollView.");
     }
 }
 

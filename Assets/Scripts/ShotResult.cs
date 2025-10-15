@@ -20,7 +20,6 @@ public class ShotResult
         this.distance = distance;
         this.pieces = pieces;
     }
-
-    // Constructor vacío requerido por RestClient
+    
     public ShotResult() { }
 }

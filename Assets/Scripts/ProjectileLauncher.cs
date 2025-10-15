@@ -29,7 +29,6 @@ public class ProjectileLauncher : MonoBehaviour
 
     void Shoot()
     { 
-        // Valores de UI
         float angle = angleSlider.value; 
         float yaw = yawSlider.value; 
         float force = forceSlider.value; 
